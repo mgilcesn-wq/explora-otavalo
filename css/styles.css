@@ -1,222 +1,325 @@
-/* ==========================================
-   VARIABLES Y CONFIGURACIÓN GLOBAL
-   ================================---------- */
+/* ====================================================================
+   1. VARIABLES Y CONFIGURACIÓN GLOBAL (:ROOT)
+   ==================================================================== */
 :root {
-    --primary: #1b365d;        /* Azul profundo andino */
-    --secondary: #c05621;      /* Tono tierra / terracota */
-    --accent: #2b6cb0;         /* Azul claro complementario */
-    --success: #2f855a;        /* Verde natural */
-    --bg-light: #f7f9fc;       /* Gris muy claro elegante */
-    --text-dark: #2d3748;      /* Texto principal oscuro */
-    --text-light: #718096;     /* Texto secundario */
+    --primary-color: #1b4332;      /* Verde profundo andino */
+    --secondary-color: #d97706;    /* Naranja cálido artesanal */
+    --accent-color: #b45309;       /* Tono acentuado para contrastes */
+    --dark-color: #1f2937;         /* Texto principal de alta legibilidad */
+    --light-color: #f8fafc;        /* Fondo claro general suave */
     --white: #ffffff;
-    --shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
-    --transition: all 0.3s ease;
+    --transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    --font-heading: 'Playfair Display', serif;
+    --font-body: 'Montserrat', sans-serif;
 }
 
-*, *::before, *::after {
-    box-sizing: border-box;
+/* Reset universal limpio */
+* {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
 }
 
 body {
-    font-family: 'Montserrat', sans-serif;
-    color: var(--text-dark);
-    background-color: var(--bg-light);
-    line-height: 1.6;
+    font-family: var(--font-body);
+    background-color: var(--light-color);
+    color: var(--dark-color);
+    line-height: 1.7;
+    overflow-x: hidden;
 }
 
-h1, h2, h3, h4, h5, h6 {
-    font-family: 'Playfair Display', serif;
-    color: var(--primary);
-    font-weight: 700;
-}
-
-ul {
-    list-style: none;
-}
-
-a {
-    text-decoration: none;
-    color: inherit;
-    transition: var(--transition);
-}
-
-img {
-    max-width: 100%;
-    height: auto;
-    display: block;
-}
-
-.container {
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
-}
-
-.section-padding {
-    padding: 80px 0;
-}
-
-.text-center {
-    text-align: center;
-}
-
-/* ==========================================
-   HEADER Y NAVEGACIÓN
-   ================================---------- */
-.site-header {
-    background-color: var(--white);
-    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+/* ====================================================================
+   2. ENCABEZADO Y BARRA DE NAVEGACIÓN ELEGANTE (STICKY)
+   ==================================================================== */
+header {
+    background-color: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(8px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
     position: sticky;
     top: 0;
     z-index: 1000;
 }
 
 .header-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 14px 24px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: 80px;
 }
 
 .logo-container {
     display: flex;
     align-items: center;
     gap: 12px;
+    text-decoration: none;
 }
 
 .logo-img {
-    width: 60px; /* Cambia este valor si lo quieres más grande o más pequeño (ej. 65px) */
-    height: 60px;
+    width: 50px;
+    height: 50px;
     object-fit: contain;
+    transition: var(--transition);
+}
+
+.logo-img:hover {
+    transform: rotate(-5deg) scale(1.05);
 }
 
 .logo-text {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.4rem;
-    color: var(--primary);
+    font-family: var(--font-heading);
+    font-size: 1.35rem;
+    color: var(--primary-color);
+    font-weight: 700;
 }
 
-.logo-text strong {
-    color: var(--secondary);
-}
-
-.nav-list {
+nav ul {
+    list-style: none;
     display: flex;
+    gap: 28px;
     align-items: center;
-    gap: 25px;
 }
 
-.nav-link {
-    font-weight: 500;
-    color: var(--text-dark);
+nav a {
+    text-decoration: none;
+    color: var(--dark-color);
+    font-weight: 600;
+    font-size: 0.95rem;
     position: relative;
-    padding: 5px 0;
+    transition: var(--transition);
 }
 
-.nav-link:hover, .nav-link.active {
-    color: var(--secondary);
+/* Efecto de línea animada moderna en el menú */
+nav a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: -4px;
+    left: 0;
+    background-color: var(--secondary-color);
+    transition: var(--transition);
 }
 
-/* ==========================================
-   HERO SECTION
-   ================================---------- */
-.hero {
-    position: relative;
-    background: linear-gradient(rgba(27, 54, 93, 0.75), rgba(27, 54, 93, 0.75)), url('../images/hero.webp') no-repeat center center/cover;
-    min-height: 85vh;
-    display: flex;
-    align-items: center;
+nav a:hover::after,
+nav a.active::after {
+    width: 100%;
+}
+
+nav a:hover,
+nav a.active {
+    color: var(--secondary-color);
+}
+
+/* ====================================================================
+   3. SECCIÓN HERO (IMAGEN PRINCIPAL GRANDE Y ÉPICA)
+   ==================================================================== */
+.hero-section {
+    /* Degradado oscuro semi-transparente sobre la imagen para resaltar el texto */
+    background: linear-gradient(rgba(27, 67, 50, 0.6), rgba(27, 67, 50, 0.75)), 
+                url('../images/hero.webp') center/cover no-repeat;
     color: var(--white);
     text-align: center;
+    padding: 140px 20px;
+    border-radius: 0 0 24px 24px;
+    margin-bottom: 50px;
+    box-shadow: 0 10px 30px rgba(27, 67, 50, 0.2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 50vh;
 }
 
 .hero-content {
-    position: relative;
-    z-index: 2;
     max-width: 800px;
-    margin: 0 auto;
-    padding: 0 20px;
+    animation: fadeInDown 0.8s ease-out;
 }
 
-.hero h1 {
-    font-size: 3.2rem;
+.hero-section h1 {
+    font-size: 3.5rem;
     color: var(--white);
-    margin-bottom: 20px;
+    margin-bottom: 15px;
+    text-shadow: 0 3px 6px rgba(0,0,0,0.3);
+    font-weight: 800;
 }
 
-.hero p {
-    font-size: 1.15rem;
-    margin-bottom: 30px;
-    opacity: 0.9;
+.hero-section p {
+    font-size: 1.2rem;
+    margin: 0 auto 30px auto;
+    color: #f1f5f9;
+    font-weight: 400;
 }
 
-/* ==========================================
-   BOTONES
-   ================================---------- */
-.btn {
+/* Animación de entrada suave */
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ====================================================================
+   4. CONTENIDO PRINCIPAL, TARJETAS Y BOTONES
+   ==================================================================== */
+main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 10px 24px 40px 24px;
+    min-height: 65vh;
+}
+
+h1, h2, h3 {
+    font-family: var(--font-heading);
+    color: var(--primary-color);
+    margin-bottom: 16px;
+}
+
+h2 {
+    font-size: 2rem;
+    border-bottom: 3px solid var(--secondary-color);
     display: inline-block;
-    padding: 12px 28px;
-    border-radius: 6px;
-    font-weight: 600;
-    text-align: center;
-    cursor: pointer;
+    padding-bottom: 5px;
+    margin-bottom: 25px;
+}
+
+p {
+    margin-bottom: 16px;
+    color: #4b5563;
+}
+
+/* Grid de tarjetas moderno y responsivo */
+.cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+    margin-top: 25px;
+}
+
+.card {
+    background: var(--white);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+    transition: var(--transition);
+    border: 1px solid #e5e7eb;
+}
+
+.card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.12);
+}
+
+.card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
     transition: var(--transition);
 }
 
+.card:hover img {
+    transform: scale(1.04);
+}
+
+.card-content {
+    padding: 20px;
+}
+
+.card-content h3 {
+    font-size: 1.3rem;
+    margin-bottom: 10px;
+}
+
+/* Botones interactivos profesionales */
 .btn-primary {
-    background-color: var(--secondary);
+    display: inline-block;
+    background-color: var(--secondary-color);
     color: var(--white);
-    box-shadow: 0 4px 12px rgba(192, 86, 33, 0.3);
+    padding: 12px 26px;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.95rem;
+    box-shadow: 0 4px 12px rgba(217, 119, 6, 0.3);
+    transition: var(--transition);
+    border: none;
+    cursor: pointer;
 }
 
 .btn-primary:hover {
-    background-color: #9c4217;
+    background-color: var(--accent-color);
     transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(217, 119, 6, 0.4);
 }
 
-/* ==========================================
-   GRIDS Y TARJETAS
-   ================================---------- */
-.cards-grid, .destinations-grid, .services-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 30px;
-}
-
-.card, .destination-card, .service-card {
-    background-color: var(--white);
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: var(--shadow);
-    transition: var(--transition);
-}
-
-.card:hover, .destination-card:hover, .service-card:hover {
-    transform: translateY(-8px);
-}
-
-.card-body, .card-content, .service-body {
-    padding: 25px;
-}
-
-/* ==========================================
-   FOOTER
-   ================================---------- */
-.site-footer {
-    background-color: var(--primary);
+/* ====================================================================
+   5. PIE DE PÁGINA (FOOTER)
+   ==================================================================== */
+footer {
+    background-color: var(--dark-color);
     color: var(--white);
-    padding: 60px 0 20px 0;
     text-align: center;
+    padding: 35px 20px;
+    margin-top: 60px;
+    border-top: 4px solid var(--secondary-color);
 }
 
-.footer-bottom {
-    border-top: 1px solid rgba(255,255,255,0.1);
-    margin-top: 30px;
-    padding-top: 20px;
-    opacity: 0.7;
-    font-size: 0.9rem;
+footer p {
+    color: #9ca3af;
+    font-size: 0.95rem;
+}
+
+/* ====================================================================
+   6. MEDIA QUERIES / DISEÑO RESPONSIVO PERFECTO (MÓVILES)
+   ==================================================================== */
+@media (max-width: 768px) {
+    .header-container {
+        flex-direction: column;
+        gap: 14px;
+        padding: 12px 15px;
+    }
+
+    nav ul {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 12px 18px;
+    }
+
+    nav a {
+        font-size: 0.9rem;
+    }
+
+    .hero-section {
+        padding: 70px 15px;
+        border-radius: 0 0 16px 16px;
+        min-height: 40vh;
+    }
+
+    .hero-section h1 {
+        font-size: 2.3rem;
+    }
+
+    .hero-section p {
+        font-size: 1.05rem;
+    }
+
+    main {
+        padding: 10px 16px 30px 16px;
+    }
+
+    h2 {
+        font-size: 1.5rem;
+    }
+
+    .cards-grid {
+        grid-template-columns: 1fr;
+    }
 }
